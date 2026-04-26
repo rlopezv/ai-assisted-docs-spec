@@ -1,0 +1,170 @@
+openapi: 3.1.0
+
+info:
+  title: "[PROJECT_NAME] API"
+  version: "1.0.0"
+  description: "Base OpenAPI contract for [PROJECT_NAME]."
+
+servers:
+  - url: "http://127.0.0.1:8000/api/v1"
+    description: "Local server"
+
+paths:
+  /health:
+    get:
+      summary: "Get API health"
+      operationId: "getHealth"
+      security: []   # público explícito
+      responses:
+        "200":
+          description: "API is reachable"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /health/dependencies:
+    get:
+      summary: "Get dependencies health"
+      operationId: "getDependenciesHealth"
+      security: []
+      responses:
+        "200":
+          description: "Dependencies health status"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DependenciesHealthResponse"
+
+  /health/resources:
+    get:
+      summary: "Get resources health"
+      operationId: "getResourcesHealth"
+      security: []
+      responses:
+        "200":
+          description: "Resources health status"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourcesHealthResponse"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    HealthStatus:
+      type: string
+      enum:
+        - ok
+        - degraded
+        - unavailable
+
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status:
+          $ref: "#/components/schemas/HealthStatus"
+
+    DependenciesHealthResponse:
+      type: object
+      required: [status, dependencies]
+      properties:
+        status:
+          $ref: "#/components/schemas/HealthStatus"
+        dependencies:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/HealthStatus"
+
+    ResourcesHealthResponse:
+      type: object
+      required: [status, resources]
+      properties:
+        status:
+          $ref: "#/components/schemas/HealthStatus"
+        resources:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/HealthStatus"
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          $ref: "#/components/schemas/ErrorDetail"
+
+    ErrorDetail:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          example: "INVALID_REQUEST"
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+        provider_error:
+          type: object
+          nullable: true
+          additionalProperties: true
+
+  responses:
+    InvalidRequest:
+      description: "Invalid request"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    NotFound:
+      description: "Resource not found"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    Conflict:
+      description: "Conflict"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    ValidationError:
+      description: "Validation error"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    InternalError:
+      description: "Internal error"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    ServiceUnavailable:
+      description: "Service unavailable"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+# Seguridad por defecto (se puede eliminar en proyectos locales)
+security:
+  - BearerAuth: []
