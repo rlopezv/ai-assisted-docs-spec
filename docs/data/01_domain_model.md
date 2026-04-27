@@ -5,9 +5,11 @@ status: Draft
 version: 1.2
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
-  - [Documentos relevantes del proyecto]
+  - business/01_project_brief.md
+  - business/02_prd.md
+  - data/02_data_dictionary.md
 ---
 
 # Domain Model
@@ -171,10 +173,27 @@ Definir qué entidad controla la relación.
 
 ### Ejemplo
 
-| Estado    | Descripción | Terminal |
-| --------- | ----------- | -------- |
-| queued    | pendiente   | no       |
-| completed | finalizado  | sí       |
+### `Job`
+
+| Estado    | Descripción                              | Terminal |
+| --------- | ---------------------------------------- | -------- |
+| queued    | pendiente de procesamiento               | no       |
+| running   | procesamiento en curso                   | no       |
+| completed | procesamiento finalizado con éxito       | sí       |
+| failed    | procesamiento finalizado con error       | sí       |
+
+---
+
+### Transiciones de estado
+
+### `Job`
+
+| Estado origen | Estado destino | Condición                                        |
+| ------------- | -------------- | ------------------------------------------------ |
+| queued        | running        | procesamiento iniciado                           |
+| running       | completed      | procesamiento finalizado sin error               |
+| running       | failed         | error no recuperable o reintentos agotados       |
+| failed        | queued         | retry solicitado dentro del límite de reintentos |
 
 ---
 
@@ -352,7 +371,7 @@ Cada entidad definida en este documento debe tener, si aplica, una sección corr
 
 ---
 
-## Anexo. Criterios de Uso
+## Anexo. Criterios de Uso (IA Assisted)
 
 Este documento debe completarse cuando:
 
@@ -391,3 +410,18 @@ No debe usarse para:
 ### Dudas abiertas
 
 * ...
+
+### Contexto
+
+- ...
+
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

@@ -5,9 +5,9 @@ status: Draft
 version: 2.0
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Rol o persona responsable]
+  - [Rol o responsable]
 related_documents:
-  - business/01_projet_brief.md
+  - business/01_project_brief.md
   - architecture/01_architecture_overview.md
   - llm/01_llm_integration_spec.md
   - qa/01_evaluation_plan.md
@@ -219,17 +219,26 @@ Descripción clara de qué hace el sistema sin entrar en implementación.
 
 Este apartado está orientado a colaboración con sistemas de IA.
 
-### Contexto adicional
+### Contexto
 - Decisiones de negocio relevantes:
 - Supuestos:
 
 ### Dudas abiertas
 - ...
 
-### Instrucciones para el asistente IA
+### Instrucciones
 - Priorizar consistencia con otros documentos
 - Evitar ambigüedad en outputs
 - Validar alineación con schemas y tests
 
-### Riesgos identificados
+### Riesgos
 - ...
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

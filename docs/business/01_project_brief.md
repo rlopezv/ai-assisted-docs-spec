@@ -238,7 +238,7 @@ Sirve como:
 
 ## Anexo. Notas de Coworking (IA Assistant)
 
-### Contexto adicional
+### Contexto
 - Decisiones relevantes:
 - Razonamiento:
 
@@ -272,14 +272,14 @@ Sirve como:
 
 ---
 
-### Instrucciones para el asistente IA
+### Instrucciones
 - Mantener coherencia con PRD  
 - No violar restricciones del sistema  
 - Priorizar soluciones deterministas cuando sea posible  
 
 ---
 
-### Riesgos identificados
+### Riesgos
 - ...
 
 ### Ejemplo

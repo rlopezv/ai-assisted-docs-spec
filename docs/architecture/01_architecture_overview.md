@@ -5,10 +5,11 @@ status: Draft
 version: 1.4
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
   - business/01_project_brief.md
   - business/02_prd.md
+  - architecture/02_technical_design.md
   - llm/01_llm_integration_spec.md
   - qa/01_evaluation_plan.md
 ---
@@ -440,7 +441,7 @@ Este documento traduce el PRD en una estructura técnica.
 
 ---
 
-### Instrucciones para el asistente IA
+### Instrucciones
 
 - Mantener coherencia con PRD
 - No introducir implementación innecesaria
@@ -473,3 +474,13 @@ Este documento traduce el PRD en una estructura técnica.
 
 - Nivel de paralelización
 - Estrategia de scheduling
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

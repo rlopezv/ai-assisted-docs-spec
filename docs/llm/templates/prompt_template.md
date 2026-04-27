@@ -5,12 +5,11 @@ status: Draft
 version: 1.0
 last_updated: [YYYY-MM-DD]
 owners:
-
-- [Responsable]
-  related_documents:
-- llm/02_prompt_library.md
-- llm/03_output_schemas.md
-- data/02_data_dictionary.md
+  - [Rol o responsable]
+related_documents:
+  - llm/02_prompt_library.md
+  - llm/03_output_schemas.md
+  - data/02_data_dictionary.md
 
 ---
 
@@ -341,3 +340,13 @@ Este documento define un prompt individual.
 
 - ajuste de parámetros
 - cobertura de edge cases
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

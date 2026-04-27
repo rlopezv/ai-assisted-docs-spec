@@ -5,7 +5,7 @@ status: Draft
 version: 1.1
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
   - business/01_project_brief.md
   - business/02_prd.md
@@ -443,7 +443,7 @@ Este documento define la implementación técnica del sistema.
 
 ---
 
-### Instrucciones para el asistente IA
+### Instrucciones
 
 - no introducir dependencias externas
 - mantener coherencia con arquitectura
@@ -477,4 +477,14 @@ Este documento define la implementación técnica del sistema.
 
 - paralelización
 - optimización
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+
 

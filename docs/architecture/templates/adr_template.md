@@ -2,13 +2,14 @@
 document: Architecture Decision Record (ADR)
 id: [NNN]
 title: [Título breve de la decisión]
-status: Proposed | Accepted | Deprecated | Superseded
+status: Draft
+adr_status: Proposed | Accepted | Deprecated | Superseded
 date: [YYYY-MM-DD]
 deciders:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
-  - architecture/02_technical_design.md
   - architecture/01_architecture_overview.md
+  - architecture/02_technical_design.md
 ---
 
 # ADR-[NNN]: [Título de la decisión]
@@ -169,7 +170,7 @@ Este documento registra decisiones técnicas del sistema.
 
 ---
 
-### Instrucciones para el asistente IA
+### Instrucciones
 
 - No duplicar decisiones en otros documentos  
 - Referenciar ADRs desde TDD o arquitectura  
@@ -190,3 +191,12 @@ Este documento registra decisiones técnicas del sistema.
 
 - cuándo revisar decisiones  
 - criterios para deprecación  
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

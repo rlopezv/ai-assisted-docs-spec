@@ -7,7 +7,7 @@ last_updated: [YYYY-MM-DD]
 owners:
   - [Rol o responsable]
 related_documents:
-  - llm/02_prompt_library.md
+  - llm/01_llm_integration_spec.md
   - llm/03_output_schemas.md
   - data/02_data_dictionary.md
 ---
@@ -396,3 +396,23 @@ Output:
 - prompts complejos
 - duplicación de prompts
 - outputs inconsistentes
+
+### Contexto
+
+- ...
+
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+
+
+### Dudas abiertas
+
+- ...
+

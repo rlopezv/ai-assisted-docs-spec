@@ -5,7 +5,7 @@ status: Draft
 version: 1.0
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
   - operations/01_operational_spec.md
   - architecture/02_technical_design.md
@@ -332,3 +332,13 @@ Este documento define cómo instalar el sistema.
 
 - compatibilidad entre entornos
 - requisitos mínimos reales
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

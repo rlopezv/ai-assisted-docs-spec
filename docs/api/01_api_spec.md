@@ -5,10 +5,10 @@ status: Draft
 version: 1.1
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
   - business/02_prd.md
-  - architecture/02_technical_design.md
+  - architecture/01_architecture_overview.md
   - data/01_domain_model.md
   - data/02_data_dictionary.md
 
@@ -572,7 +572,7 @@ La definición formal ejecutable se encuentra en:
 
 ---
 
-### Instrucciones para el asistente IA
+### Instrucciones
 
 - No mezclar modelos internos con schemas públicos.
 - No duplicar schemas definidos en OpenAPI.
@@ -595,3 +595,13 @@ La definición formal ejecutable se encuentra en:
 - estrategia de autenticación
 - política de cancelación de jobs
 - límites de tamaño por request
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

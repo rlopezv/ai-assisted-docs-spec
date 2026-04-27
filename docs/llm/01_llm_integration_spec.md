@@ -334,3 +334,23 @@ No deben descartarse salvo decisión explícita documentada.
 - acoplamiento a herramientas específicas
 - duplicación con otros documentos
 - falta de validación estructural
+
+### Contexto
+
+- ...
+
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+
+
+### Dudas abiertas
+
+- ...
+

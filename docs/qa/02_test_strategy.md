@@ -5,7 +5,7 @@ status: Draft
 version: 1.1
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
   - qa/01_evaluation_plan.md
   - architecture/02_technical_design.md
@@ -257,7 +257,7 @@ Definir qué no cubren las pruebas.
 
 ---
 
-## Anexo. Notas de Coworking
+## Anexo. Notas de Coworking (IA Assistant)
 
 ### Instrucciones
 
@@ -272,3 +272,23 @@ Definir qué no cubren las pruebas.
 - cobertura insuficiente
 - dependencia de mocks incorrectos
 - tests frágiles
+
+### Contexto
+
+- ...
+
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+
+
+### Dudas abiertas
+
+- ...
+

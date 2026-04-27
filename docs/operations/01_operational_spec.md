@@ -1,12 +1,11 @@
 ---
-
 document: Operational Specification
 project: [NOMBRE_DEL_PROYECTO]
 status: Draft
 version: 1.2
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
   - architecture/02_technical_design.md
   - qa/01_evaluation_plan.md
@@ -454,3 +453,13 @@ Este documento define cómo operar el sistema.
 
 - configuración óptima
 - límites operativos reales
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

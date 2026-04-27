@@ -141,6 +141,26 @@ Definir información adicional generada por el modelo.
 
 ---
 
+### Enum `generation_type`
+
+Define el origen del valor generado por el modelo.
+
+| Valor | Descripción | Confianza esperada |
+| ----------- | ---------------------------------------------------- | ------------------ |
+| `extracted` | valor extraído directamente del texto de entrada | ≥ 0.85 |
+| `normalized` | valor presente en el input transformado a formato canónico | ≥ 0.75 |
+| `inferred` | valor deducido por contexto, no explícito en el input | variable, < 1.0 |
+| `generated` | valor generado sin base directa en el input | < 0.60 |
+
+### Reglas de consistencia
+
+- `extracted`: el valor debe poder localizarse en el input mediante `source_reference`
+- `normalized`: debe registrarse el valor original antes de la transformación
+- `inferred`: `source_reference` debe indicar el fragmento de contexto utilizado
+- `generated`: siempre requiere revisión — no debe usarse en campos críticos sin validación
+
+---
+
 ### Ejemplo
 
 ```json id="v2k9pl"
@@ -148,8 +168,14 @@ Definir información adicional generada por el modelo.
   "publication_date": {
     "value": "1936-03-12",
     "confidence": 0.82,
-    "source_reference": "inferido a partir del contexto",
+    "source_reference": "inferido a partir del contexto del párrafo 2",
     "generation_type": "inferred"
+  },
+  "title": {
+    "value": "Revista Semanal",
+    "confidence": 0.97,
+    "source_reference": "línea 1",
+    "generation_type": "extracted"
   }
 }
 ```
@@ -160,6 +186,7 @@ Definir información adicional generada por el modelo.
 
 - deben ser opcionales
 - deben ser consistentes en todos los schemas
+- `generation_type` debe estar siempre presente cuando se usa salida trazable
 
 ---
 
@@ -237,6 +264,9 @@ Definir reglas de coherencia interna.
 
 - si `issue_number` existe, `publication_date` debería existir
 - si `generation_type` es `inferred`, la confianza debe ser menor que 1.0
+- si `generation_type` es `extracted`, la confianza debe ser ≥ 0.85
+- si `generation_type` es `normalized`, la confianza debe ser ≥ 0.75
+- si `generation_type` es `generated`, la confianza debe ser < 0.60 y el campo no debe ser crítico sin revisión
 
 ---
 
@@ -337,3 +367,23 @@ No define la ejecución runtime de la validación, que pertenece a `llm/01_llm_i
 - inconsistencias entre prompts y schemas
 - duplicación de definiciones
 - schemas demasiado rígidos
+
+### Contexto
+
+- ...
+
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+
+
+### Dudas abiertas
+
+- ...
+

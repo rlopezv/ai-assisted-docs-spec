@@ -5,9 +5,10 @@ status: Draft
 version: 1.1
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
-  - [Documentos relevantes del proyecto]
+  - business/02_prd.md
+  - data/01_domain_model.md
 ---
 
 # Data Dictionary
@@ -289,7 +290,7 @@ Definir cómo evolucionan los datos.
 
 ---
 
-## Anexo. Criterios de Uso
+## Anexo. Criterios de Uso (IA Assisted)
 
 Este documento debe completarse cuando:
 
@@ -331,3 +332,17 @@ No debe usarse para:
 - definición de campos obligatorios  
 - gestión de valores nulos  
 - estrategia de evolución  
+### Contexto
+
+- ...
+
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+

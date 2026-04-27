@@ -1,3 +1,10 @@
+---
+document: Index
+status: Draft
+version: 1.0
+last_updated: [YYYY-MM-DD]
+---
+
 # Índice Maestro de Documentación (`docs/`)
 
 Este índice define la **estructura base de documentación** para proyectos que requieran:
@@ -61,7 +68,7 @@ Define la interfaz del sistema hacia el exterior.
   - operaciones
   - comportamiento esperado
 
-- `openapi_template.yaml`  
+- `templates/openapi_template.yaml`  
   Plantilla base OpenAPI:
   - definición formal del contrato
   - modelos de datos expuestos
@@ -107,30 +114,196 @@ Define la interfaz del sistema hacia el exterior.
 
 ---
 
+# 🗺️ Mapa de Referencias
+
+Fuente de verdad de las relaciones entre documentos del framework.
+Utilizado por `tools/update_related_documents.py` y `tools/update_index.py`.
+
+Para modificar las referencias de un documento, editar este bloque y re-ejecutar los scripts.
+
+<!-- MERMAID_START -->
+```mermaid
+classDiagram
+    class Business {
+        01_project_brief
+        02_prd
+        03_roadmap
+    }
+    class Data {
+        01_domain_model
+        02_data_dictionary
+    }
+    class Architecture {
+        01_architecture_overview
+        02_technical_design
+        templates/adr_template
+    }
+    class API {
+        01_api_spec
+    }
+    class LLM {
+        01_llm_integration_spec
+        02_prompt_library
+        03_output_schemas
+        templates/prompt_template
+    }
+    class QA {
+        01_evaluation_plan
+        02_test_strategy
+    }
+    class Operations {
+        01_operational_spec
+        02_setup_guide
+        03_runbook
+        04_deployment
+    }
+
+    API --> Architecture
+    API --> Business
+    API --> Data
+    Architecture --> Business
+    Architecture --> LLM
+    Architecture --> QA
+    Business --> Architecture
+    Business --> LLM
+    Business --> QA
+    Data --> Business
+    LLM --> Data
+    Operations --> API
+    Operations --> Architecture
+    Operations --> QA
+    QA --> Architecture
+    QA --> Business
+```
+<!-- MERMAID_END -->
+
+```yaml
+reference_map:
+  business/01_project_brief.md:
+    - business/02_prd.md
+    - architecture/01_architecture_overview.md
+
+  business/02_prd.md:
+    - business/01_project_brief.md
+    - architecture/01_architecture_overview.md
+    - llm/01_llm_integration_spec.md
+    - qa/01_evaluation_plan.md
+
+  business/03_roadmap.md:
+    - business/01_project_brief.md
+    - business/02_prd.md
+
+  data/01_domain_model.md:
+    - business/01_project_brief.md
+    - business/02_prd.md
+    - data/02_data_dictionary.md
+
+  data/02_data_dictionary.md:
+    - business/02_prd.md
+    - data/01_domain_model.md
+
+  architecture/01_architecture_overview.md:
+    - business/01_project_brief.md
+    - business/02_prd.md
+    - architecture/02_technical_design.md
+    - llm/01_llm_integration_spec.md
+    - qa/01_evaluation_plan.md
+
+  architecture/02_technical_design.md:
+    - business/01_project_brief.md
+    - business/02_prd.md
+    - architecture/01_architecture_overview.md
+    - llm/01_llm_integration_spec.md
+    - qa/01_evaluation_plan.md
+
+  architecture/templates/adr_template.md:
+    - architecture/01_architecture_overview.md
+    - architecture/02_technical_design.md
+
+  api/01_api_spec.md:
+    - business/02_prd.md
+    - architecture/01_architecture_overview.md
+    - data/01_domain_model.md
+    - data/02_data_dictionary.md
+
+  llm/01_llm_integration_spec.md:
+    - llm/02_prompt_library.md
+    - llm/03_output_schemas.md
+    - data/01_domain_model.md
+    - data/02_data_dictionary.md
+
+  llm/02_prompt_library.md:
+    - llm/01_llm_integration_spec.md
+    - llm/03_output_schemas.md
+    - data/02_data_dictionary.md
+
+  llm/03_output_schemas.md:
+    - llm/01_llm_integration_spec.md
+    - llm/02_prompt_library.md
+    - data/01_domain_model.md
+    - data/02_data_dictionary.md
+
+  llm/templates/prompt_template.md:
+    - llm/02_prompt_library.md
+    - llm/03_output_schemas.md
+    - data/02_data_dictionary.md
+
+  qa/01_evaluation_plan.md:
+    - business/01_project_brief.md
+    - business/02_prd.md
+    - architecture/02_technical_design.md
+
+  qa/02_test_strategy.md:
+    - qa/01_evaluation_plan.md
+    - architecture/02_technical_design.md
+
+  operations/01_operational_spec.md:
+    - architecture/02_technical_design.md
+    - qa/01_evaluation_plan.md
+    - api/01_api_spec.md
+
+  operations/02_setup_guide.md:
+    - operations/01_operational_spec.md
+    - architecture/02_technical_design.md
+
+  operations/03_runbook.md:
+    - operations/01_operational_spec.md
+    - operations/02_setup_guide.md
+    - architecture/02_technical_design.md
+
+  operations/04_deployment.md:
+    - operations/01_operational_spec.md
+    - operations/02_setup_guide.md
+    - architecture/02_technical_design.md
+```
+
+---
+
 # 📊 Estado de las Plantillas
 
-| Área         | Documento                   | Estado        | Notas                     |
-| ------------ | --------------------------- | ------------- | ------------------------- |
-| Business     | 01_project_brief.md         | 🟢 Completo   |        |
-| Business     | 02_prd.md                   | 🟢 Completo   |     |
-| Business     | 03_roadmap.md               | ⚪ No iniciado |                           |
-| Data         | 01_domain_model.md          | 🟢 Completo   |          |
-| Data         | 02_data_dictionary.md       | 🟢 Completo   |          |
-| Architecture | 01_architecture_overview.md | 🟢 Completo |                           |
-| Architecture | 02_technical_design.md      | 🟢 Completo |                           |
-| Architecture | adr/adr_template.md         | 🟢 Completo   |       |
-| API          | 01_api_spec.md              | 🟢 Completo    |  |
-| API          | openapi_template.yaml       | 🟢 Completo    |  |
-| LLM          | 01_llm_integration_spec.md  | 🟢 Completo   |                   |
-| LLM          | 02_prompt_library.md        | 🟢 Completo   |                           |
-| LLM          | 03_output_schemas.md        | 🟢 Completo   |                           |
-| LLM          | prompt_template.md          | 🟢 Completo   |                           |
-| QA           | 01_evaluation_plan.md       | 🟢 Completo   |                           |
-| QA           | 02_test_strategy.md         | 🟢 Completo   |                           |
-| Operations   | 01_operational_spec.md      | 🟢 Completo |                           |
-| Operations   | 02_setup_guide.md           | ⚪ No iniciado |                           |
-| Operations   | 03_runbook.md               | ⚪ No iniciado |                           |
-| Operations   | 04_deployment.md            | ⚪ No iniciado |                           |
+<!-- STATUS_TABLE_START -->
+| Área | Documento | Estado | Notas |
+| ---- | --------- | ------ | ----- |
+| Business | 01_project_brief.md | 🔵 Draft | |
+| Business | 02_prd.md | 🔵 Draft | |
+| Business | 03_roadmap.md | 🔵 Draft | |
+| Data | 01_domain_model.md | 🔵 Draft | |
+| Data | 02_data_dictionary.md | 🔵 Draft | |
+| Architecture | 01_architecture_overview.md | 🔵 Draft | |
+| Architecture | 02_technical_design.md | 🔵 Draft | |
+| Architecture | templates/adr_template.md | 🔵 Draft | |
+| API | 01_api_spec.md | 🔵 Draft | |
+| LLM | 01_llm_integration_spec.md | 🔵 Draft | |
+| LLM | 02_prompt_library.md | 🔵 Draft | |
+| LLM | 03_output_schemas.md | 🔵 Draft | |
+| LLM | templates/prompt_template.md | 🔵 Draft | |
+| QA | 01_evaluation_plan.md | 🔵 Draft | |
+| QA | 02_test_strategy.md | 🔵 Draft | |
+| Operations | 01_operational_spec.md | 🔵 Draft | |
+| Operations | 02_setup_guide.md | 🔵 Draft | |
+| Operations | 03_runbook.md | 🔵 Draft | |
+| Operations | 04_deployment.md | 🔵 Draft | |
+<!-- STATUS_TABLE_END -->
 
 ---
 

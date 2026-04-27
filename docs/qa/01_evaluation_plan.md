@@ -5,7 +5,7 @@ status: Draft
 version: 1.3
 last_updated: [YYYY-MM-DD]
 owners:
-  - [Responsable]
+  - [Rol o responsable]
 related_documents:
   - business/01_project_brief.md
   - business/02_prd.md
@@ -418,7 +418,7 @@ Este documento define cómo validar el sistema.
 
 ---
 
-### Instrucciones para el asistente IA
+### Instrucciones
 
 - no proponer cambios sin evaluación
 - usar métricas para justificar mejoras
@@ -438,3 +438,13 @@ Este documento define cómo validar el sistema.
 
 - definición de métricas óptimas
 - calidad del dataset
+
+### Inputs utilizados
+
+- ...
+
+
+### Insights clave
+
+- ...
+
