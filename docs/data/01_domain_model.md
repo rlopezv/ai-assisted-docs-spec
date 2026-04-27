@@ -31,6 +31,9 @@ Este documento no define:
 - endpoints de API  
 - detalles de implementación  
 
+El modelo de dominio debe derivarse de los casos de uso y objetivos definidos en la capa Business.  
+Cada entidad debe tener un propósito claro dentro de esos casos de uso.
+
 ---
 
 ### Ejemplo
@@ -77,15 +80,37 @@ Este documento no define:
 
 ## 4. Entidades del Dominio
 
+### Estructura de entidad
+
+Cada entidad debe definirse utilizando una estructura consistente que combine:
+
+- descripción funcional (qué es y qué hace)  
+- identidad lógica (qué la hace única)  
+- atributos conceptuales  
+- relaciones con otras entidades  
+- reglas asociadas  
+
+Se recomienda evitar definir entidades como simples listados sin contexto.
+
 ---
 
-### 4.1 `[Entidad]`
+### Entidad: <Nombre>
 
-Descripción:
-- ...
+- Descripción: qué representa la entidad dentro del sistema.  
+- Responsabilidad: qué función cumple dentro del sistema y qué lógica o comportamiento le corresponde.  
+- Relaciones:
+  - con <Entidad>: tipo de relación (por ejemplo: pertenece a, contiene, referencia) y su significado funcional  
 
-Responsabilidad:
-- ...
+---
+
+### Ejemplo
+
+Entidad: Documento
+
+- Descripción: representa un archivo de entrada procesado por el sistema.  
+- Responsabilidad: contener y estructurar la información extraída.  
+- Relaciones:
+  - con Usuario: pertenece a  
 
 ---
 
@@ -120,7 +145,7 @@ Definir qué hace única a la entidad.
 
 ### Ejemplo
 
-### `Document`
+Entidad: Document
 
 Descripción:
 - Representa una unidad de entrada.
@@ -175,12 +200,12 @@ Definir qué entidad controla la relación.
 
 ### `Job`
 
-| Estado    | Descripción                              | Terminal |
-| --------- | ---------------------------------------- | -------- |
-| queued    | pendiente de procesamiento               | no       |
-| running   | procesamiento en curso                   | no       |
-| completed | procesamiento finalizado con éxito       | sí       |
-| failed    | procesamiento finalizado con error       | sí       |
+| Estado    | Descripción                        | Terminal |
+| --------- | ---------------------------------- | -------- |
+| queued    | pendiente de procesamiento         | no       |
+| running   | procesamiento en curso             | no       |
+| completed | procesamiento finalizado con éxito | sí       |
+| failed    | procesamiento finalizado con error | sí       |
 
 ---
 
@@ -349,6 +374,8 @@ Definir qué pertenece al dominio.
 
 ## 13. Relación con otros modelos
 
+El uso de `02_data_dictionary.md` es opcional y depende de la complejidad del dominio.
+
 Cada entidad definida en este documento debe tener, si aplica, una sección correspondiente en `02_data_dictionary.md`.
 
 ### Data Dictionary
@@ -363,6 +390,29 @@ Cada entidad definida en este documento debe tener, si aplica, una sección corr
 
 * implementa este modelo
 
+### Jerarquía de modelos
+
+El modelo de dominio es la fuente de verdad principal.
+
+- API define vistas externas del dominio
+- Los schemas de salida (incluyendo LLM) son representaciones derivadas cuando aplican
+
+Los schemas de LLM solo aplican si el sistema utiliza modelos de lenguaje.
+
+### Unidad de procesamiento
+
+El sistema se basa en unidades de procesamiento definidas como:
+
+- input
+- procesamiento
+- output
+
+Todas las capas del sistema deben alinearse con esta unidad:
+
+- API expone inputs/outputs
+- LLM transforma inputs en outputs
+- QA evalúa outputs frente a inputs
+
 ---
 
 ## 14. Limitaciones y Dudas
@@ -375,16 +425,16 @@ Cada entidad definida en este documento debe tener, si aplica, una sección corr
 
 Este documento debe completarse cuando:
 
-- existan nuevas entidades del dominio
-- cambien reglas de negocio
-- se añadan campos estructurados
-- cambien restricciones de datos
+* existan nuevas entidades del dominio
+* cambien reglas de negocio
+* se añadan campos estructurados
+* cambien restricciones de datos
 
 No debe usarse para:
 
-- definir endpoints
-- definir tablas físicas
-- documentar implementación
+* definir endpoints
+* definir tablas físicas
+* documentar implementación
 
 ---
 
@@ -413,15 +463,13 @@ No debe usarse para:
 
 ### Contexto
 
-- ...
-
+* ...
 
 ### Inputs utilizados
 
-- ...
-
+* ...
 
 ### Insights clave
 
-- ...
+* ...
 

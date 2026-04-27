@@ -30,6 +30,10 @@ Debe especificar:
 
 Este documento sirve como base directa para la implementación.
 
+Este documento debe mantener trazabilidad directa con los componentes definidos en el Architecture Overview.
+
+Cada componente debe tener una representación concreta en términos de módulos, servicios o estructuras de código.
+
 ---
 
 ### Ejemplo
@@ -97,6 +101,10 @@ Definir el lenguaje principal de implementación, versión objetivo, runtime y c
 
 ## 4. Arquitectura de Código (Módulos y Paquetes)
 
+La estructura de código debe reflejar los componentes definidos en el Architecture Overview.
+
+Cada módulo debe corresponder a un componente o parte de un componente del sistema.
+
 Definir la organización del código fuente.
 
 - módulos principales  
@@ -124,6 +132,14 @@ Definir la organización del código fuente.
 
 ---
 
+### Relación con componentes
+
+| Componente (Architecture) | Módulo |
+|--------------------------|--------|
+|                          |        |
+
+---
+
 ### Ejemplo
 
 - `ingest`: entrada de datos  
@@ -148,6 +164,8 @@ Debe ponerse especial énfasis en el **dato en tránsito**:
 - qué objeto exacto se pasa entre módulos  
 - formato de datos (JSON, objetos tipados, paths, etc.)  
 - transformaciones que sufre en cada etapa  
+
+Cada paso del flujo debe corresponder a uno o varios módulos definidos en la sección 4.
 
 ---
 
@@ -196,7 +214,7 @@ Evento → Handler → Procesamiento → Evento → Persistencia
 
 ### Representación opcional
 
-```mermaid
+```mermaid id="ec9t9u"
 flowchart LR
     A[Entrada] --> B[Procesamiento]
     B -->|Condición| C[Enriquecimiento]
@@ -209,9 +227,9 @@ flowchart LR
 
 ### Consideraciones
 
-- qué datos se intercambian
-- cómo evolucionan
-- cómo se controlan estados
+* qué datos se intercambian
+* cómo evolucionan
+* cómo se controlan estados
 
 ---
 
@@ -219,36 +237,47 @@ flowchart LR
 
 Definir cómo se integran dependencias técnicas.
 
-- modelos LLM
-- motores de procesamiento
-- herramientas externas
+* modelos LLM
+* motores de procesamiento
+* herramientas externas
+
+Cuando se utilicen modelos LLM, deben considerarse como:
+
+* componentes del sistema (si forman parte del flujo)
+* o dependencias externas (si se consumen como servicio)
+
+Esta decisión debe ser consistente con el Architecture Overview.
 
 ---
 
 ### Ejemplo
 
-- Integración con motor LLM local
-- Uso de librerías de parsing
-- Uso de OCR cuando sea necesario
+* Integración con motor LLM local
+* Uso de librerías de parsing
+* Uso de OCR cuando sea necesario
 
 ---
 
 ## 7. Diseño de Datos y Persistencia
 
+Esta sección describe cómo se implementa la persistencia del modelo de datos definido en `01_domain_model.md`.
+
+No debe redefinir entidades ni lógica de dominio.
+
 Definir cómo se almacenan los datos.
 
-- estructura de datos
-- modelos
-- base de datos
-- validación
+* estructura de datos
+* modelos
+* base de datos
+* validación
 
 ---
 
 ### Ejemplo
 
-- Base de datos local
-- Modelos tipados
-- Validación mediante schemas
+* Base de datos local
+* Modelos tipados
+* Validación mediante schemas
 
 ---
 
@@ -256,10 +285,10 @@ Definir cómo se almacenan los datos.
 
 Definir cómo se gestionan los recursos del sistema:
 
-- CPU
-- GPU
-- memoria
-- almacenamiento
+* CPU
+* GPU
+* memoria
+* almacenamiento
 
 Debe incluir una **estrategia activa de gestión**.
 
@@ -267,25 +296,25 @@ Debe incluir una **estrategia activa de gestión**.
 
 ### Lifecycle de recursos críticos
 
-- cuándo se inicializan
-- cuándo se utilizan
-- cuándo se liberan
+* cuándo se inicializan
+* cuándo se utilizan
+* cuándo se liberan
 
 ---
 
 ### Ejemplo
 
-- Carga de modelo bajo demanda
-- Liberación de memoria tras inferencia
-- Control de concurrencia
+* Carga de modelo bajo demanda
+* Liberación de memoria tras inferencia
+* Control de concurrencia
 
 ---
 
 ### Consideraciones
 
-- evitar bloqueos
-- minimizar uso de GPU
-- priorizar estabilidad
+* evitar bloqueos
+* minimizar uso de GPU
+* priorizar estabilidad
 
 ---
 
@@ -293,17 +322,17 @@ Debe incluir una **estrategia activa de gestión**.
 
 Definir el comportamiento técnico ante errores.
 
-- tipos de error
-- estrategias
-- recuperación
+* tipos de error
+* estrategias
+* recuperación
 
 ---
 
 ### Ejemplo
 
-- Retry en errores recuperables
-- Fail-fast en errores críticos
-- Validación de outputs del modelo
+* Retry en errores recuperables
+* Fail-fast en errores críticos
+* Validación de outputs del modelo
 
 ---
 
@@ -311,17 +340,17 @@ Definir el comportamiento técnico ante errores.
 
 Definir configuración técnica del sistema.
 
-- variables de entorno
-- configuración de ejecución
-- dependencias
+* variables de entorno
+* configuración de ejecución
+* dependencias
 
 ---
 
 ### Ejemplo
 
-- `.env`
-- parámetros del modelo
-- rutas
+* `.env`
+* parámetros del modelo
+* rutas
 
 ---
 
@@ -329,38 +358,40 @@ Definir configuración técnica del sistema.
 
 Definir cómo se monitoriza el sistema:
 
-- logs
-- métricas
-- trazabilidad
+* logs
+* métricas
+* trazabilidad
+
+La trazabilidad debe permitir seguir el flujo de datos entre módulos definidos en la arquitectura.
 
 ---
 
 ### Métricas de sistema
 
-- latencia
-- errores
-- throughput
+* latencia
+* errores
+* throughput
 
 ---
 
 ### Métricas de modelo (IA) (Opcional)
 
-- score de confianza
-- calidad del output
-- tasa de outputs inválidos
+* score de confianza
+* calidad del output
+* tasa de outputs inválidos
 
 ---
 
 ### Ejemplo
 
-- logging de inferencias
-- trazabilidad por documento
+* logging de inferencias
+* trazabilidad por documento
 
 ---
 
 ### Consideraciones
 
-- separar métricas técnicas vs modelo
+* separar métricas técnicas vs modelo
 
 ---
 
@@ -368,16 +399,16 @@ Definir cómo se monitoriza el sistema:
 
 Definir consideraciones de seguridad.
 
-- acceso a datos
-- aislamiento
-- protección
+* acceso a datos
+* aislamiento
+* protección
 
 ---
 
 ### Ejemplo
 
-- procesamiento local
-- no exposición externa
+* procesamiento local
+* no exposición externa
 
 ---
 
@@ -401,23 +432,23 @@ Definir las limitaciones del sistema (no errores).
 
 ### Tipos
 
-- hardware
-- tamaño de datos
-- tiempo de procesamiento
-- capacidad del modelo
+* hardware
+* tamaño de datos
+* tiempo de procesamiento
+* capacidad del modelo
 
 ---
 
 ### Ejemplo
 
-- límite de tamaño de archivo
-- limitaciones de memoria
+* límite de tamaño de archivo
+* limitaciones de memoria
 
 ---
 
 ### Consideraciones
 
-- diferenciar error vs limitación
+* diferenciar error vs limitación
 
 ---
 
@@ -431,60 +462,58 @@ Este documento define la implementación técnica del sistema.
 
 ### Supuestos
 
-- ...
-- ...
+* ...
+* ...
 
 ---
 
 ### Ejemplo
 
-- recursos limitados
-- uso de modelos probabilísticos
+* recursos limitados
+* uso de modelos probabilísticos
 
 ---
 
 ### Instrucciones
 
-- no introducir dependencias externas
-- mantener coherencia con arquitectura
-- no mezclar niveles
-- validar consistencia con PRD
+* no introducir dependencias externas
+* mantener coherencia con arquitectura
+* no mezclar niveles
+* validar consistencia con PRD
 
 ---
 
 ### Riesgos
 
-- ...
-- ...
+* ...
+* ...
 
 ---
 
 ### Ejemplo
 
-- fallos en inferencia
-- problemas de memoria
+* fallos en inferencia
+* problemas de memoria
 
 ---
 
 ### Dudas abiertas
 
-- ...
-- ...
+* ...
+* ...
 
 ---
 
 ### Ejemplo
 
-- paralelización
-- optimización
+* paralelización
+* optimización
 
 ### Inputs utilizados
 
-- ...
-
+* ...
 
 ### Insights clave
 
-- ...
-
+* ...
 

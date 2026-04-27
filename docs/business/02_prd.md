@@ -94,6 +94,20 @@ Descripción clara de qué hace el sistema sin entrar en implementación.
 ### UC-02: [Nombre]
 ...
 
+### Ejemplo
+
+```txt
+UC-01: Procesar documento
+
+- Input: archivo PDF proporcionado por el usuario.
+- Proceso: extracción, validación y estructuración de la información.
+- Output: datos estructurados listos para su uso.
+- Edge cases:
+  - archivo corrupto
+  - contenido no legible
+  - formato no soportado
+```
+
 ---
 
 ## 7. Requisitos Funcionales
@@ -106,6 +120,17 @@ Descripción clara de qué hace el sistema sin entrar en implementación.
 
 ### FR-02
 ...
+
+
+### Ejemplo
+
+```txt
+FR-01: El sistema debe procesar documentos de entrada.
+
+- Descripción: el sistema debe ser capaz de recibir un archivo y extraer información relevante.
+- Prioridad: alta
+- Criterio de validación: el sistema devuelve datos estructurados correctos para un conjunto de pruebas definido.
+```
 
 ---
 
@@ -175,6 +200,12 @@ Descripción clara de qué hace el sistema sin entrar en implementación.
 
 ### AC-02
 ...
+
+### Ejemplo
+
+- Dado un documento válido, el sistema devuelve información estructurada correctamente.
+- Dado un documento corrupto, el sistema devuelve un error controlado.
+- Dado un formato no soportado, el sistema informa adecuadamente al usuario.
 
 ---
 

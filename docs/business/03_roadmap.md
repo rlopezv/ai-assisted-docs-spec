@@ -168,7 +168,7 @@ Definir qué bloquea el inicio de cada fase.
 
 ## 5. Backlog
 
-Ideas y funcionalidades identificadas pero no planificadas en las fases actuales.
+Este backlog es orientativo y no sustituye a herramientas de gestión de tareas. Su objetivo es recoger ideas o capacidades candidatas a futuras fases. Contiene las ideas y funcionalidades identificadas pero no planificadas en las fases actuales.
 
 - [Idea 1]
 - [Idea 2]

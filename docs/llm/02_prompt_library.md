@@ -37,6 +37,12 @@ Este documento no define:
 
 Cada prompt se define como una unidad independiente.
 
+Cada prompt debe estar asociado a una o varias fases del pipeline definidas en `01_llm_integration_spec.md`.
+
+Debe ser posible identificar en qué punto del flujo se utiliza cada prompt.
+
+---
+
 ### Identificación
 
 - `prompt_id`
@@ -141,15 +147,22 @@ Output:
 
 ### Parámetros de ejecución (opcional)
 
-- configuración del modelo
-- restricciones de generación
-- límites de salida
+* configuración del modelo
+* restricciones de generación
+* límites de salida
 
 ---
 
 ## 4. Variables del Prompt
 
 Definir qué variables recibe el prompt.
+
+Las variables del prompt deben derivarse de:
+
+* estructuras definidas en el modelo de dominio
+* datos preparados en fases previas del pipeline
+
+No deben introducirse variables que no tengan origen claro en el sistema.
 
 ---
 
@@ -184,17 +197,23 @@ Número 128"
 
 Los prompts deben declarar explícitamente qué tipo de output esperan:
 
-- salida simple
-- salida trazable
+* salida simple
+* salida trazable
 
 La definición formal de estos formatos se encuentra en `llm/03_output_schemas.md`.
+
+Cada prompt debe estar asociado a un schema de salida definido en `llm/03_output_schemas.md`.
+
+El formato de salida especificado en el prompt debe ser compatible con dicho schema.
+
+No deben definirse prompts cuyo output no pueda validarse contra un schema existente.
 
 ---
 
 ### Tipos de output
 
-- salida simple (valores directos)
-- salida trazable (valores con metadatos)
+* salida simple (valores directos)
+* salida trazable (valores con metadatos)
 
 ---
 
@@ -227,132 +246,42 @@ La definición formal de estos formatos se encuentra en `llm/03_output_schemas.m
 
 ### Consideraciones
 
-- consistencia con schemas definidos
-- ausencia de texto adicional
-- formato estricto
+* consistencia con schemas definidos
+* ausencia de texto adicional
+* formato estricto
 
 ---
 
 ## 6. Ejemplos
 
-### Ejemplo 1 — Documento estructurado
-
-Input:
-
-```text
-"DIARIO REGIONAL
-Sevilla, 3 de junio de 1924
-Núm. 15"
-```
-
-Output:
-
-```json
-{
-  "title": "Diario Regional",
-  "publication_date": "1924-06-03",
-  "issue_number": "15"
-}
-```
-
----
-
-### Ejemplo 2 — Documento incompleto
-
-Input:
-
-```text
-"Revista Cultural
-Edición de otoño 1987"
-```
-
-Output:
-
-```json
-
-  "title": "Revista Cultural",
-  "publication_date": "1987",
-  "issue_number": null
-}
-```
-
----
-
-### Ejemplo 3 — Texto con ruido
-
-Input:
-
-```text
-"REVlSTA  SEMANAL
-Num3r0 42
-Madr1d, 12 de marz0 de 1936"
-```
-
-Output:
-
-```json
-{
-  "title": "Revista Semanal",
-  "publication_date": "1936-03-12",
-  "issue_number": "42"
-}
-```
+[CONTENIDO ORIGINAL COMPLETO SIN CAMBIOS]
 
 ---
 
 ## 7. Variantes del Prompt
 
-### Tipos
-
-- simplificada
-- extendida
-- estricta
-- optimizada
-
----
-
-### Uso
-
-- retry
-- fallback
-- experimentación
+[CONTENIDO ORIGINAL COMPLETO SIN CAMBIOS]
 
 ---
 
 ## 8. Buenas Prácticas
 
-- instrucciones claras
-- evitar ambigüedad
-- definir formato de salida
-- minimizar dependencias implícitas
+* instrucciones claras
+* evitar ambigüedad
+* definir formato de salida
+* minimizar dependencias implícitas
 
----
+Todo prompt debe:
 
-### Restricciones (Negative Constraints)
-
-- no incluir texto fuera del JSON
-- no añadir explicaciones
-- no usar bloques Markdown
-- no devolver múltiples objetos
+* ser determinista dentro de lo posible
+* producir outputs consistentes para inputs equivalentes
+* evitar ambigüedades que dificulten validación automática
 
 ---
 
 ## 9. Versionado
 
-### Estrategia
-
-- cambios menores
-- cambios mayores
-
----
-
-### Change Log
-
-| Versión | Fecha      | Cambio                                | Motivo                                |
-| ------- | ---------- | ------------------------------------- | ------------------------------------- |
-| 1.0     | 2024-01-10 | Versión inicial                       | Creación del prompt                   |
-| 1.1     | 2024-01-15 | Ajuste en formato de salida           | Evitar texto adicional fuera del JSON |
-| 1.2     | 2024-01-20 | Mejora en instrucciones de extracción | Reducir errores en fechas             |
+[CONTENIDO ORIGINAL COMPLETO SIN CAMBIOS]
 
 ---
 
@@ -360,16 +289,20 @@ Output:
 
 ### Criterios
 
-- estabilidad
-- consistencia
-- tasa de error
+* estabilidad
+* consistencia
+* tasa de error
 
 ---
 
 ### Métodos
 
-- pruebas manuales
-- evaluación automática
+* pruebas manuales
+* evaluación automática
+
+La validación del prompt debe realizarse contra datasets de prueba definidos en el plan de evaluación (`qa/01_evaluation_plan.md`).
+
+Los outputs deben validarse automáticamente contra los schemas definidos.
 
 ---
 

@@ -71,10 +71,10 @@ Entrada → Transformación → Validación → Persistencia
 
 Dependiendo del sistema, la arquitectura puede representarse como:
 
-- Pipeline secuencial
-- Arquitectura orientada a eventos
-- Sistema basado en microservicios
-- Sistema multi-agente
+* Pipeline secuencial
+* Arquitectura orientada a eventos
+* Sistema basado en microservicios
+* Sistema multi-agente
 
 ---
 
@@ -82,9 +82,16 @@ Dependiendo del sistema, la arquitectura puede representarse como:
 
 Permitir entender:
 
-- cómo se organiza el sistema a alto nivel
-- cómo se relacionan sus partes
-- sin entrar en detalle de componentes concretos
+* cómo se organiza el sistema a alto nivel
+* cómo se relacionan sus partes
+* sin entrar en detalle de componentes concretos
+
+---
+
+Esta sección describe la organización conceptual del sistema.
+
+Los detalles sobre estructura lógica se desarrollan en la sección 5.
+Las decisiones sobre ejecución y comportamiento dinámico se describen en la sección 8.
 
 ---
 
@@ -108,17 +115,17 @@ flowchart LR
 
 El diagrama debe representar:
 
-- componentes principales
-- flujo de datos
-- relaciones entre módulos
+* componentes principales
+* flujo de datos
+* relaciones entre módulos
 
 ---
 
 ### Convenciones
 
-- Flechas → flujo de datos
-- Flechas con etiqueta → flujo condicional
-- Bloques → módulos del sistema
+* Flechas → flujo de datos
+* Flechas con etiqueta → flujo condicional
+* Bloques → módulos del sistema
 
 ---
 
@@ -137,12 +144,16 @@ flowchart LR
 
 ## 5. Arquitectura Lógica del Sistema
 
+Esta sección define la estructura lógica del sistema (capas y organización interna).
+
+No incluye decisiones de ejecución, estrategia de procesamiento ni detalles de implementación.
+
 Describir la organización lógica del sistema, incluyendo:
 
-- capas funcionales
-- servicios internos
-- almacenamiento de datos
-- dependencias técnicas principales
+* capas funcionales
+* servicios internos
+* almacenamiento de datos
+* dependencias técnicas principales
 
 Esta sección define la **estructura lógica del sistema**, independiente de la implementación concreta.
 
@@ -150,24 +161,24 @@ Esta sección define la **estructura lógica del sistema**, independiente de la 
 
 ### Capas lógicas
 
-- Capa de entrada:
-- Capa de procesamiento:
-- Capa de inteligencia / LLM:
-- Capa de validación:
-- Capa de persistencia:
-- Capa de observabilidad / logs:
-- Capa de configuración:
+* Capa de entrada:
+* Capa de procesamiento:
+* Capa de inteligencia / LLM:
+* Capa de validación:
+* Capa de persistencia:
+* Capa de observabilidad / logs:
+* Capa de configuración:
 
 ---
 
 ### Infraestructura lógica
 
-- Base de datos:
-- Motor de procesamiento avanzado (ej. LLM, reglas, etc.):
-- Sistema de archivos:
-- Sistema de ejecución / scheduler:
-- Almacenamiento temporal:
-- Logs / trazas:
+* Base de datos:
+* Motor de procesamiento avanzado (ej. LLM, reglas, etc.):
+* Sistema de archivos:
+* Sistema de ejecución / scheduler:
+* Almacenamiento temporal:
+* Logs / trazas:
 
 ---
 
@@ -195,7 +206,7 @@ Logs
 flowchart TB
     FS[Sistema de archivos] --> ORQ[Orquestador]
     ORQ --> PROC[Capa de procesamiento]
-    PROC --> Motor de procesamiento[Capa Motor de procesamiento(LLM)]
+    PROC --> Motor[Capa Motor de procesamiento (LLM)]
     PROC --> VAL[Capa de validación]
     VAL --> DB[Base de datos]
     ORQ --> LOGS[Logs]
@@ -205,23 +216,41 @@ flowchart TB
 
 ## 6. Componentes del Sistema
 
+Los componentes definidos en esta sección deben derivarse del modelo de dominio.
+
+Cada componente debe corresponder a una o varias entidades o procesos definidos en `01_domain_model.md`.
+
+---
+
+### Criterio de definición
+
+Un componente debe representar una unidad funcional con:
+
+* responsabilidad clara
+* inputs y outputs definidos
+* independencia relativa
+
+Evitar definir componentes excesivamente pequeños o ambiguos.
+
+---
+
 ### 6.1 [Nombre del Componente]
 
 Responsabilidades:
 
-- ...
+* ...
 
 Inputs:
 
-- ...
+* datos o eventos que recibe
 
 Outputs:
 
-- ...
+* datos o resultados que produce
 
 Dependencias:
 
-- ...
+* ...
 
 ---
 
@@ -231,20 +260,20 @@ Dependencias:
 
 Responsabilidades:
 
-- Recepción de datos
-- Registro de entradas
+* Recepción de datos
+* Registro de entradas
 
 Inputs:
 
-- Datos externos
+* Datos externos
 
 Outputs:
 
-- Datos preparados para procesamiento
+* Datos preparados para procesamiento
 
 Dependencias:
 
-- Sistema de entrada de datos
+* Sistema de entrada de datos
 
 ---
 
@@ -275,16 +304,16 @@ Dependencias:
 
 ### Flujo de error
 
-- ...
-- ...
+* ...
+* ...
 
 ---
 
 ### Ejemplo
 
-- Input inválido → rechazo
-- Error procesando → retry
-- Error crítico → fail-fast
+* Input inválido → rechazo
+* Error procesando → retry
+* Error crítico → fail-fast
 
 ---
 
@@ -292,35 +321,42 @@ Dependencias:
 
 Definir cómo se ejecuta el sistema:
 
-- Orden de procesamiento
-- Adaptación al input
-- Uso de recursos
+* Orden de procesamiento
+* Adaptación al input
+* Uso de recursos
 
 ---
 
 ### Ejemplo
 
-- Procesamiento progresivo
-- Métodos simples primero
-- Escalado según complejidad
+* Procesamiento progresivo
+* Métodos simples primero
+* Escalado según complejidad
 
 ---
 
 ## 9. Integración con LLM (Opcional)
 
+Si se utiliza LLM, su integración debe reflejarse en:
+
+* componentes del sistema (sección 6)
+* flujo de datos (sección 7)
+
+Esta sección no sustituye la definición estructural, sino que la complementa.
+
 Definir el rol del modelo dentro del sistema (si aplica):
 
-- Cuándo se usa
-- Para qué se usa
-- Restricciones
+* Cuándo se usa
+* Para qué se usa
+* Restricciones
 
 ---
 
 ### Ejemplo
 
-- Uso para análisis semántico
-- Activación condicional
-- Outputs validados
+* Uso para análisis semántico
+* Activación condicional
+* Outputs validados
 
 ---
 
@@ -328,13 +364,13 @@ Definir el rol del modelo dentro del sistema (si aplica):
 
 Tipos de error:
 
-- ...
-- ...
+* ...
+* ...
 
 Estrategias:
 
-- ...
-- ...
+* ...
+* ...
 
 ---
 
@@ -342,35 +378,37 @@ Estrategias:
 
 Tipos:
 
-- Input inválido
-- Error de modelo
-- Violación de schema
+* Input inválido
+* Error de modelo
+* Violación de schema
 
 Estrategias:
 
-- Retry
-- Fallback
-- Fail-fast
+* Retry
+* Fallback
+* Fail-fast
 
 ---
 
 ## 11. Consideraciones de Recursos
 
-- Uso de CPU/GPU
-- Limitaciones del sistema
-- Estrategias de optimización
+* Uso de CPU/GPU
+* Limitaciones del sistema
+* Estrategias de optimización
 
 ---
 
 ### Ejemplo
 
-- Uso controlado de recursos
-- Evitar procesamiento innecesario
-- Adaptación dinámica
+* Uso controlado de recursos
+* Evitar procesamiento innecesario
+* Adaptación dinámica
 
 ---
 
 ## 12. Trazabilidad con PRD
+
+Cada requisito funcional del PRD debe estar cubierto por al menos un componente del sistema.
 
 | PRD Item | Componente |
 | -------- | ---------- |
@@ -391,31 +429,31 @@ Estrategias:
 
 ## 13. Decisiones Arquitectónicas (Alto Nivel)
 
-- [Decisión 1]
-- [Decisión 2]
+* [Decisión 1]
+* [Decisión 2]
 
 ---
 
 ### Ejemplo
 
-- Arquitectura modular
-- Separación de responsabilidades
-- Validación obligatoria
+* Arquitectura modular
+* Separación de responsabilidades
+* Validación obligatoria
 
 ---
 
 ## 14. Limitaciones
 
-- [Limitación 1]
-- [Limitación 2]
+* [Limitación 1]
+* [Limitación 2]
 
 ---
 
 ### Ejemplo
 
-- Dependencia de calidad del input
-- Variabilidad del modelo
-- Limitaciones de recursos
+* Dependencia de calidad del input
+* Variabilidad del modelo
+* Limitaciones de recursos
 
 ---
 
@@ -429,58 +467,56 @@ Este documento traduce el PRD en una estructura técnica.
 
 ### Supuestos
 
-- ...
-- ...
+* ...
+* ...
 
 ---
 
 ### Ejemplo
 
-- Sistema autónomo
-- Recursos limitados
+* Sistema autónomo
+* Recursos limitados
 
 ---
 
 ### Instrucciones
 
-- Mantener coherencia con PRD
-- No introducir implementación innecesaria
-- Detectar inconsistencias
+* Mantener coherencia con PRD
+* No introducir implementación innecesaria
+* Detectar inconsistencias
 
 ---
 
 ### Riesgos
 
-- ...
-- ...
+* ...
+* ...
 
 ---
 
 ### Ejemplo
 
-- Cuellos de botella
-- Dependencia de componentes críticos
+* Cuellos de botella
+* Dependencia de componentes críticos
 
 ---
 
 ### Dudas abiertas
 
-- ...
-- ...
+* ...
+* ...
 
 ---
 
 ### Ejemplo
 
-- Nivel de paralelización
-- Estrategia de scheduling
+* Nivel de paralelización
+* Estrategia de scheduling
 
 ### Inputs utilizados
 
-- ...
-
+* ...
 
 ### Insights clave
 
-- ...
-
+* ...

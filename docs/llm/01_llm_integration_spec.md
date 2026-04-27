@@ -86,10 +86,22 @@ Input → Preprocesado → Construcción de Prompt → Inferencia → Post-proce
 
 Definir cómo se maneja el tamaño del input cuando supera la capacidad del modelo.
 
-- segmentación del input
-- procesamiento por fragmentos
-- agregación de resultados
-- priorización de contenido relevante
+* segmentación del input
+* procesamiento por fragmentos
+* agregación de resultados
+* priorización de contenido relevante
+
+---
+
+### Integración con arquitectura
+
+Cada fase del pipeline debe estar asociada a uno o varios componentes definidos en el Architecture Overview.
+
+La implementación concreta de estas fases debe reflejarse en el TDD.
+
+El flujo definido en este documento debe alinearse con los flujos de ejecución descritos en el TDD.
+
+No deben existir flujos de LLM que no estén reflejados en la ejecución técnica del sistema.
 
 ---
 
@@ -99,16 +111,16 @@ Definir cuándo se utiliza el LLM.
 
 ### Tipos de activación
 
-- obligatoria
-- condicional
-- fallback
+* obligatoria
+* condicional
+* fallback
 
 ---
 
 ### Ejemplo
 
-- activar solo si faltan datos críticos
-- activar si el input no cumple ciertos criterios de calidad
+* activar solo si faltan datos críticos
+* activar si el input no cumple ciertos criterios de calidad
 
 ---
 
@@ -118,17 +130,24 @@ Definir qué información recibe el modelo.
 
 ### Tipos de input
 
-- texto no estructurado
-- datos estructurados previos
-- contexto adicional
+* texto no estructurado
+* datos estructurados previos
+* contexto adicional
 
 ---
 
 ### Consideraciones
 
-- tamaño máximo de input
-- limpieza y normalización
-- priorización de contenido
+* tamaño máximo de input
+* limpieza y normalización
+* priorización de contenido
+
+Los inputs deben derivarse de:
+
+* entidades definidas en `01_domain_model.md`
+* estructuras expuestas por la API (si aplica)
+
+No deben definirse inputs independientes del modelo de dominio.
 
 ---
 
@@ -136,25 +155,25 @@ Definir qué información recibe el modelo.
 
 Referencia:
 
-- `llm/02_prompt_library.md`
+* `llm/02_prompt_library.md`
 
 ---
 
 ### Elementos
 
-- system prompt
-- instrucciones
-- contexto
-- formato esperado de salida
+* system prompt
+* instrucciones
+* contexto
+* formato esperado de salida
 
 ---
 
 ### Construcción dinámica del prompt
 
-- datos de entrada
-- resultados de fases previas
-- contexto adicional
-- configuración de ejecución
+* datos de entrada
+* resultados de fases previas
+* contexto adicional
+* configuración de ejecución
 
 ---
 
@@ -162,15 +181,15 @@ Referencia:
 
 Referencia:
 
-- `llm/03_output_schemas.md`
+* `llm/03_output_schemas.md`
 
 ---
 
 ### Tipos de output
 
-- JSON estructurado
-- texto enriquecido
-- clasificación
+* JSON estructurado
+* texto enriquecido
+* clasificación
 
 ---
 
@@ -178,8 +197,8 @@ Referencia:
 
 El sistema puede trabajar con dos formatos de salida:
 
-- salida simple: valores directos
-- salida trazable: valores enriquecidos con metadatos por campo
+* salida simple: valores directos
+* salida trazable: valores enriquecidos con metadatos por campo
 
 Ambos formatos deben estar definidos en `llm/03_output_schemas.md`.
 
@@ -191,25 +210,33 @@ Antes de integrar la salida en el sistema, el pipeline debe normalizar el result
 
 La normalización debe preservar, cuando existan:
 
-- `confidence`
-- `source_reference`
-- `generation_type`
+* `confidence`
+* `source_reference`
+* `generation_type`
 
 ---
 
 ### Post-procesado de salida
 
-- eliminación de texto no estructurado
-- extracción de bloques relevantes
-- normalización del formato esperado
+* eliminación de texto no estructurado
+* extracción de bloques relevantes
+* normalización del formato esperado
 
 ---
 
 ### Metadatos recomendados
 
-- nivel de confianza (`confidence`)
-- trazabilidad (`source_reference`)
-- tipo de generación (`generation_type`)
+* nivel de confianza (`confidence`)
+* trazabilidad (`source_reference`)
+* tipo de generación (`generation_type`)
+
+---
+
+### Contrato de salida
+
+Todo output estructurado debe corresponder a un schema definido en `llm/03_output_schemas.md`.
+
+El modelo no debe generar estructuras no contempladas en dichos schemas.
 
 ---
 
@@ -217,17 +244,25 @@ La normalización debe preservar, cuando existan:
 
 ### Tipos de validación
 
-- sintáctica (formato)
-- estructural (schema)
-- semántica (consistencia)
+* sintáctica (formato)
+* estructural (schema)
+* semántica (consistencia)
 
 ---
 
 ### Resultado
 
-- válido
-- inválido
-- válido con advertencias
+* válido
+* inválido
+* válido con advertencias
+
+---
+
+### Integración con QA
+
+Las reglas de validación definidas en esta sección deben ser reutilizadas en el plan de evaluación (`qa/01_evaluation_plan.md`).
+
+Toda validación relevante debe ser verificable mediante tests.
 
 ---
 
@@ -235,34 +270,34 @@ La normalización debe preservar, cuando existan:
 
 ### Tipos de error
 
-- respuesta inválida
-- timeout
-- salida inconsistente
+* respuesta inválida
+* timeout
+* salida inconsistente
 
 ---
 
 ### Estrategias
 
-- retry
-- degradación funcional
-- fallback
+* retry
+* degradación funcional
+* fallback
 
 ---
 
 ### Estrategia de reintento
 
-- configuración del modelo
-- prompt
-- input
-- contexto
+* configuración del modelo
+* prompt
+* input
+* contexto
 
 ---
 
 ## 10. Estrategia de Fallback
 
-- ejecución sin LLM
-- uso de lógica heurística
-- uso de fuentes de contexto adicionales
+* ejecución sin LLM
+* uso de lógica heurística
+* uso de fuentes de contexto adicionales
 
 ---
 
@@ -270,17 +305,17 @@ La normalización debe preservar, cuando existan:
 
 ### Métricas
 
-- score de confianza
-- consistencia interna
-- validación cruzada
+* score de confianza
+* consistencia interna
+* validación cruzada
 
 ---
 
 ### Uso
 
-- aceptación automática
-- revisión manual
-- reintento
+* aceptación automática
+* revisión manual
+* reintento
 
 ---
 
@@ -288,34 +323,38 @@ La normalización debe preservar, cuando existan:
 
 Cada dato generado debe poder rastrearse mediante:
 
-- segmento de origen (`source_reference`)
-- nivel de confianza (`confidence`)
-- tipo de generación (`generation_type`)
+* segmento de origen (`source_reference`)
+* nivel de confianza (`confidence`)
+* tipo de generación (`generation_type`)
 
 Los metadatos de trazabilidad deben preservarse durante:
 
-- post-procesado
-- validación
-- normalización
-- integración posterior
+* post-procesado
+* validación
+* normalización
+* integración posterior
 
 No deben descartarse salvo decisión explícita documentada.
+
+La trazabilidad debe ser compatible con los mecanismos definidos en el TDD y en observabilidad del sistema.
+
+Debe permitir reconstruir el flujo completo desde input hasta output.
 
 ---
 
 ## 13. Consideraciones de Rendimiento
 
-- latencia de inferencia
-- uso de recursos
-- tamaño de contexto
+* latencia de inferencia
+* uso de recursos
+* tamaño de contexto
 
 ---
 
 ## 14. Limitaciones
 
-- dependencia del modelo
-- variabilidad de resultados
-- sensibilidad al input
+* dependencia del modelo
+* variabilidad de resultados
+* sensibilidad al input
 
 ---
 
@@ -323,34 +362,31 @@ No deben descartarse salvo decisión explícita documentada.
 
 ### Instrucciones
 
-- no acoplar a modelos concretos
-- no introducir detalles de implementación
-- mantener separación entre prompt, schema e integración
+* no acoplar a modelos concretos
+* no introducir detalles de implementación
+* mantener separación entre prompt, schema e integración
 
 ---
 
 ### Riesgos
 
-- acoplamiento a herramientas específicas
-- duplicación con otros documentos
-- falta de validación estructural
+* acoplamiento a herramientas específicas
+* duplicación con otros documentos
+* falta de validación estructural
 
 ### Contexto
 
-- ...
-
+* ...
 
 ### Inputs utilizados
 
-- ...
-
+* ...
 
 ### Insights clave
 
-- ...
-
+* ...
 
 ### Dudas abiertas
 
-- ...
+* ...
 

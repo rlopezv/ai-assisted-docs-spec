@@ -27,6 +27,10 @@ Su objetivo es asegurar:
 - detección temprana de errores
 - estabilidad ante cambios
 
+Esta estrategia de testing debe ser coherente con el plan de evaluación definido en `qa/01_evaluation_plan.md`.
+
+Los tests automatizados deben cubrir los criterios definidos en dicho plan.
+
 ---
 
 ## 2. Principios de Testing
@@ -66,6 +70,18 @@ Validación del flujo completo del sistema.
 
 - desde input hasta output final
 - comportamiento real del sistema
+
+---
+
+### Unidad de test
+
+Cada test debe definirse como:
+
+- input
+- expected_output
+- assertions
+
+El expected_output debe alinearse con los schemas definidos en `llm/03_output_schemas.md`.
 
 ---
 
@@ -138,6 +154,10 @@ Verificar la integridad de los datos.
 - cumplimiento de schemas
 - ausencia de pérdida de información
 
+La validación de datos debe realizarse contra los schemas definidos en `llm/03_output_schemas.md`.
+
+Los tests deben verificar que los outputs cumplen dichos schemas antes de cualquier otra validación.
+
 ---
 
 ### Ejemplo
@@ -180,6 +200,8 @@ Definir el nivel de automatización.
 - integración en CI/CD
 - ejecución periódica
 
+La automatización de tests debe integrarse con la evaluación continua definida en `qa/01_evaluation_plan.md`.
+
 ---
 
 ### Ejemplo
@@ -197,6 +219,14 @@ Definir el nivel de automatización.
 - consistencia entre ejecuciones
 - robustez ante inputs ambiguos
 
+Las pruebas con LLM deben considerar:
+
+- variabilidad del modelo
+- necesidad de validación estructural estricta
+- comparación contra outputs esperados tolerantes
+
+Los outputs deben validarse siempre contra schemas antes de cualquier evaluación semántica.
+
 ---
 
 ### Pruebas de prompts
@@ -204,6 +234,11 @@ Definir el nivel de automatización.
 - verificación de formato de salida
 - estabilidad del prompt
 - impacto de cambios en prompts
+
+Cada test relacionado con LLM debe indicar:
+
+- prompt_id
+- versión del prompt
 
 ---
 
@@ -277,18 +312,14 @@ Definir qué no cubren las pruebas.
 
 - ...
 
-
 ### Inputs utilizados
 
 - ...
-
 
 ### Insights clave
 
 - ...
 
-
 ### Dudas abiertas
 
 - ...
-

@@ -32,6 +32,10 @@ Este documento no define:
 - validación runtime
 - detalles de implementación
 
+Todo output generado por el LLM debe cumplir uno de los schemas definidos en este documento.
+
+No se deben aceptar outputs que no puedan validarse contra estos schemas.
+
 ---
 
 ## 2. Principios de Diseño
@@ -50,13 +54,17 @@ El sistema admite diferentes niveles de enriquecimiento en la salida del LLM.
 
 Estos formatos deben ser referenciados desde `llm/02_prompt_library.md` para que cada prompt indique qué tipo de salida espera.
 
+Cada prompt definido en `llm/02_prompt_library.md` debe estar asociado explícitamente a uno de los tipos de output definidos en esta sección.
+
+Los schemas definidos en este documento se utilizan en la fase de validación del pipeline descrito en `01_llm_integration_spec.md`.
+
 ---
 
 ### 3.1 Salida simple
 
 Estructura con valores directos.
 
-```json id="1b4mcz"
+```json
 {
   "title": "Revista Semanal",
   "publication_date": "1936-03-12",
@@ -70,7 +78,7 @@ Estructura con valores directos.
 
 Estructura enriquecida con metadatos por campo.
 
-```json id="u9x6av"
+```json
 {
   "title": {
     "value": "Revista Semanal",
@@ -85,15 +93,19 @@ Estructura enriquecida con metadatos por campo.
 
 ### Consideraciones
 
-- ambos formatos deben ser compatibles con el pipeline
-- la salida trazable permite auditoría y validación avanzada
-- la salida simple es más ligera y fácil de consumir
+* ambos formatos deben ser compatibles con el pipeline
+* la salida trazable permite auditoría y validación avanzada
+* la salida simple es más ligera y fácil de consumir
 
 ---
 
 ## 4. Definición de Campos
 
 Cada schema debe definir sus campos en alineación con el data dictionary.
+
+Los campos definidos deben corresponder a entidades y atributos definidos en el modelo de dominio.
+
+No deben introducirse campos que no estén alineados con el dominio.
 
 ---
 
@@ -109,7 +121,7 @@ Cada schema debe definir sus campos en alineación con el data dictionary.
 
 ### Ejemplo de instancia
 
-```json id="7q1xwe"
+```json
 {
   "title": "Revista Semanal",
   "publication_date": "1936-03-12",
@@ -121,9 +133,9 @@ Cada schema debe definir sus campos en alineación con el data dictionary.
 
 ### Consideraciones
 
-- usar nombres consistentes
-- evitar duplicación con data dictionary
-- mantener claridad semántica
+* usar nombres consistentes
+* evitar duplicación con data dictionary
+* mantener claridad semántica
 
 ---
 
@@ -135,9 +147,9 @@ Definir información adicional generada por el modelo.
 
 ### Tipos de metadatos
 
-- nivel de confianza (`confidence`)
-- origen del dato (`source_reference`)
-- tipo de generación (`generation_type`)
+* nivel de confianza (`confidence`)
+* origen del dato (`source_reference`)
+* tipo de generación (`generation_type`)
 
 ---
 
@@ -145,25 +157,27 @@ Definir información adicional generada por el modelo.
 
 Define el origen del valor generado por el modelo.
 
-| Valor | Descripción | Confianza esperada |
-| ----------- | ---------------------------------------------------- | ------------------ |
-| `extracted` | valor extraído directamente del texto de entrada | ≥ 0.85 |
-| `normalized` | valor presente en el input transformado a formato canónico | ≥ 0.75 |
-| `inferred` | valor deducido por contexto, no explícito en el input | variable, < 1.0 |
-| `generated` | valor generado sin base directa en el input | < 0.60 |
+| Valor        | Descripción                                                | Confianza esperada |
+| ------------ | ---------------------------------------------------------- | ------------------ |
+| `extracted`  | valor extraído directamente del texto de entrada           | ≥ 0.85             |
+| `normalized` | valor presente en el input transformado a formato canónico | ≥ 0.75             |
+| `inferred`   | valor deducido por contexto, no explícito en el input      | variable, < 1.0    |
+| `generated`  | valor generado sin base directa en el input                | < 0.60             |
+
+---
 
 ### Reglas de consistencia
 
-- `extracted`: el valor debe poder localizarse en el input mediante `source_reference`
-- `normalized`: debe registrarse el valor original antes de la transformación
-- `inferred`: `source_reference` debe indicar el fragmento de contexto utilizado
-- `generated`: siempre requiere revisión — no debe usarse en campos críticos sin validación
+* `extracted`: el valor debe poder localizarse en el input mediante `source_reference`
+* `normalized`: debe registrarse el valor original antes de la transformación
+* `inferred`: `source_reference` debe indicar el fragmento de contexto utilizado
+* `generated`: siempre requiere revisión — no debe usarse en campos críticos sin validación
 
 ---
 
 ### Ejemplo
 
-```json id="v2k9pl"
+```json
 {
   "publication_date": {
     "value": "1936-03-12",
@@ -184,9 +198,9 @@ Define el origen del valor generado por el modelo.
 
 ### Consideraciones
 
-- deben ser opcionales
-- deben ser consistentes en todos los schemas
-- `generation_type` debe estar siempre presente cuando se usa salida trazable
+* deben ser opcionales
+* deben ser consistentes en todos los schemas
+* `generation_type` debe estar siempre presente cuando se usa salida trazable
 
 ---
 
@@ -198,9 +212,9 @@ Definir cómo se representan campos no explícitos en el input.
 
 ### Reglas
 
-- identificar si un campo es inferido
-- asociar nivel de confianza
-- asociar origen del dato
+* identificar si un campo es inferido
+* asociar nivel de confianza
+* asociar origen del dato
 
 ---
 
@@ -212,7 +226,7 @@ Definir cómo se agrupan múltiples entidades.
 
 ### Ejemplo: lista de objetos
 
-```json id="k8c4me"
+```json
 {
   "items": [
     {
@@ -231,7 +245,7 @@ Definir cómo se agrupan múltiples entidades.
 
 ### Ejemplo: estructura anidada
 
-```json id="5r9jda"
+```json
 {
   "publication": {
     "name": "Revista Semanal",
@@ -248,9 +262,9 @@ Definir cómo se agrupan múltiples entidades.
 
 ### Consideraciones
 
-- mantener claridad estructural
-- evitar duplicación de datos
-- mantener consistencia entre niveles
+* mantener claridad estructural
+* evitar duplicación de datos
+* mantener consistencia entre niveles
 
 ---
 
@@ -262,11 +276,11 @@ Definir reglas de coherencia interna.
 
 ### Ejemplos
 
-- si `issue_number` existe, `publication_date` debería existir
-- si `generation_type` es `inferred`, la confianza debe ser menor que 1.0
-- si `generation_type` es `extracted`, la confianza debe ser ≥ 0.85
-- si `generation_type` es `normalized`, la confianza debe ser ≥ 0.75
-- si `generation_type` es `generated`, la confianza debe ser < 0.60 y el campo no debe ser crítico sin revisión
+* si `issue_number` existe, `publication_date` debería existir
+* si `generation_type` es `inferred`, la confianza debe ser menor que 1.0
+* si `generation_type` es `extracted`, la confianza debe ser ≥ 0.85
+* si `generation_type` es `normalized`, la confianza debe ser ≥ 0.75
+* si `generation_type` es `generated`, la confianza debe ser < 0.60 y el campo no debe ser crítico sin revisión
 
 ---
 
@@ -278,13 +292,13 @@ Definir cómo representar ausencia de datos.
 
 ### Ejemplos
 
-```json id="g2n1zv"
+```json
 {
   "issue_number": null
 }
 ```
 
-```json id="r6p8ke"
+```json
 {
   "title": "Revista Cultural"
 }
@@ -294,9 +308,9 @@ Definir cómo representar ausencia de datos.
 
 ### Consideraciones
 
-- usar `null` para valores conocidos pero ausentes
-- omitir campos cuando no aplican
-- evitar valores ambiguos
+* usar `null` para valores conocidos pero ausentes
+* omitir campos cuando no aplican
+* evitar valores ambiguos
 
 ---
 
@@ -304,8 +318,8 @@ Definir cómo representar ausencia de datos.
 
 ### Estrategia
 
-- cambios menores
-- cambios mayores
+* cambios menores
+* cambios mayores
 
 ---
 
@@ -320,8 +334,8 @@ Definir cómo representar ausencia de datos.
 
 ### Consideraciones
 
-- compatibilidad hacia atrás
-- impacto en prompts y validación
+* compatibilidad hacia atrás
+* impacto en prompts y validación
 
 ---
 
@@ -333,22 +347,37 @@ Esta sección define la validación lógica esperada sobre el output.
 
 No define la ejecución runtime de la validación, que pertenece a `llm/01_llm_integration_spec.md`.
 
+La validación de los outputs debe realizarse automáticamente antes de su integración en el sistema.
+
+Los outputs que no cumplan el schema deben ser:
+
+* rechazados
+* reintentados
+* o gestionados mediante fallback
+
+---
+
+### Comportamiento ante fallo de validación
+
+* no integrar outputs inválidos
+* registrar el error
+* activar estrategias de recuperación (retry o fallback)
 
 ---
 
 ### Ejemplos
 
-- el campo `title` debe ser string
-- `publication_date` debe tener formato válido
-- `confidence` debe estar entre 0 y 1
+* el campo `title` debe ser string
+* `publication_date` debe tener formato válido
+* `confidence` debe estar entre 0 y 1
 
 ---
 
 ## 12. Limitaciones
 
-- dependencia del modelo
-- variabilidad del output
-- errores en inferencias
+* dependencia del modelo
+* variabilidad del output
+* errores en inferencias
 
 ---
 
@@ -356,34 +385,30 @@ No define la ejecución runtime de la validación, que pertenece a `llm/01_llm_i
 
 ### Instrucciones
 
-- no duplicar el data dictionary
-- no definir lógica de validación
-- mantener consistencia con domain model
+* no duplicar el data dictionary
+* no definir lógica de validación
+* mantener consistencia con domain model
 
 ---
 
 ### Riesgos
 
-- inconsistencias entre prompts y schemas
-- duplicación de definiciones
-- schemas demasiado rígidos
+* inconsistencias entre prompts y schemas
+* duplicación de definiciones
+* schemas demasiado rígidos
 
 ### Contexto
 
-- ...
-
+* ...
 
 ### Inputs utilizados
 
-- ...
-
+* ...
 
 ### Insights clave
 
-- ...
-
+* ...
 
 ### Dudas abiertas
 
-- ...
-
+* ...

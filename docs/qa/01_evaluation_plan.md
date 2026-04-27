@@ -45,6 +45,8 @@ Definir qué se quiere validar.
 - validar cumplimiento de schema
 - validar comportamiento ante inputs degradados
 
+La evaluación del sistema debe validar que todos los outputs cumplen los schemas definidos en `llm/03_output_schemas.md`.
+
 ---
 
 ### Ejemplo
@@ -73,6 +75,20 @@ Definir los datos utilizados para evaluar el sistema.
 - volumen: 1.000 documentos
 - cobertura: múltiples formatos y calidades
 - ubicación: repositorio interno versionado
+
+Los datasets deben estructurarse de forma que permitan comparación automática entre expected_output y predicted_output.
+
+---
+
+### Unidad de evaluación
+
+Cada caso de evaluación debe incluir:
+
+- input
+- expected_output (ground truth)
+- predicted_output
+
+El expected_output debe seguir los schemas definidos en `llm/03_output_schemas.md`.
 
 ---
 
@@ -113,6 +129,8 @@ Evaluar:
 - consistencia entre ejecuciones
 - presencia de alucinaciones
 
+La evaluación debe reflejar las fases del pipeline definidas en `llm/01_llm_integration_spec.md`.
+
 ---
 
 ### Ejemplo
@@ -125,6 +143,12 @@ Evaluar:
 ## 5. Métricas de Calidad
 
 Definir qué se mide para evaluar el sistema.
+
+Las métricas deben definirse de forma computable, especificando:
+
+- método de cálculo
+- tolerancias aceptables
+- nivel de granularidad (campo, entidad, documento)
 
 ---
 
@@ -185,6 +209,10 @@ Definir qué se mide para evaluar el sistema.
 ## 6. Metodología de Evaluación
 
 Definir cómo se ejecuta la evaluación.
+
+La evaluación debe poder ejecutarse de forma automática como parte del pipeline de desarrollo.
+
+Cada evaluación debe poder asociarse al prompt utilizado (`llm/02_prompt_library.md`) y a su versión correspondiente.
 
 ---
 
@@ -443,8 +471,6 @@ Este documento define cómo validar el sistema.
 
 - ...
 
-
 ### Insights clave
 
 - ...
-
